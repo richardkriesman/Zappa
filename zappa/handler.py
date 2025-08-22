@@ -367,7 +367,8 @@ class LambdaHandler:
         """
         For the given event build ARN and return the configured function
         """
-        intent = event.get("currentIntent")
+        intent = (event.get("currentIntent")  # Lex v1 input event
+                 or event.get("sessionState", {}).get("intent"))  # Lex v2 input event
         if intent:
             intent = intent.get("name")
             if intent:
